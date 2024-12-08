@@ -1,47 +1,61 @@
-document.getElementById('uploadForm').addEventListener('submit', async (event) => {
-    event.preventDefault();
-
-    const fileInput = document.getElementById('fileInput');
+// Display file name and size when a file is selected
+document.getElementById('fileInput').addEventListener('change', (event) => {
+    const file = event.target.files[0]; // Get the selected file
     const messageElement = document.getElementById('message');
-    const file = fileInput.files[0];
 
     // Reset the message
     messageElement.textContent = '';
     messageElement.className = 'message';
 
-    // Display the selected file name
     if (file) {
+        // Display selected file name and size
         messageElement.textContent = `Selected file: "${file.name}" (${(file.size / 1024).toFixed(2)} KB)`;
+        console.log(`File selected: Name: "${file.name}", Size: ${file.size} bytes`);
     } else {
+        messageElement.textContent = "No file selected.";
+        console.error("No file selected.");
+    }
+});
+
+// Handle file upload when the form is submitted
+document.getElementById('uploadForm').addEventListener('submit', async (event) => {
+    event.preventDefault(); // Prevent default form submission
+
+    const fileInput = document.getElementById('fileInput');
+    const messageElement = document.getElementById('message');
+    const file = fileInput.files[0]; // Get the selected file
+
+    // Reset the message
+    messageElement.className = 'message';
+
+    if (!file) {
         messageElement.textContent = "Please select a file!";
         messageElement.className += ' error';
+        console.error("No file selected");
         return;
     }
 
-    // Attempt to fetch the SAS URL dynamically
+    // Attempt to fetch the SAS URL dynamically from /api/config
     let uploadUrl = null;
     try {
+        console.log("Fetching SAS URL from /api/config...");
         const response = await fetch("/api/config");
         if (!response.ok) {
-            throw new Error("Failed to fetch configuration");
+            throw new Error(`Failed to fetch SAS URL. HTTP status: ${response.status}`);
         }
         const config = await response.json();
-        uploadUrl = config.STORAGE_UPLOAD_URL;
+        uploadUrl = config.STORAGE_UPLOAD_URL; // Extract the SAS URL
+        console.log("SAS URL successfully fetched:", uploadUrl);
     } catch (error) {
         console.error("Error fetching SAS URL from /api/config:", error);
-        // Fallback to a hardcoded SAS URL
-        uploadUrl = "https://ops310prj2sazaman1.blob.core.windows.net/incoming-files?sp=rcw&st=2024-12-08T08:31:56Z&se=2024-12-15T16:31:56Z&spr=https&sv=2022-11-02&sr=c&sig=tZFrRPRFuwsRaCYmwflqwjZi8BCCmwuVFqGKkyeGi5M%3D";
-    }
-
-    if (!uploadUrl) {
-        messageElement.textContent = "Failed to obtain upload URL.";
+        messageElement.textContent = "Failed to fetch upload URL. Please try again.";
         messageElement.className += ' error';
         return;
     }
 
     // Display uploading message
     messageElement.textContent = `Uploading file: "${file.name}"...`;
-    messageElement.className = 'message';
+    console.log(`Uploading file "${file.name}" to SAS URL:`, uploadUrl);
 
     try {
         const response = await fetch(uploadUrl, {
@@ -55,9 +69,11 @@ document.getElementById('uploadForm').addEventListener('submit', async (event) =
         if (response.ok) {
             messageElement.textContent = `File "${file.name}" uploaded successfully!`;
             messageElement.className += ' success';
+            console.log(`File "${file.name}" uploaded successfully!`);
         } else {
             messageElement.textContent = `Failed to upload file "${file.name}". Please try again.`;
             messageElement.className += ' error';
+            console.error(`Upload failed with status: ${response.status} ${response.statusText}`);
         }
     } catch (error) {
         messageElement.textContent = `An error occurred while uploading "${file.name}".`;
