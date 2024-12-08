@@ -35,23 +35,8 @@ document.getElementById('uploadForm').addEventListener('submit', async (event) =
         return;
     }
 
-    // Attempt to fetch the SAS URL dynamically from /api/config
-    let uploadUrl = null;
-    try {
-        console.log("Fetching SAS URL from /api/config...");
-        const response = await fetch("/api/config");
-        if (!response.ok) {
-            throw new Error(`Failed to fetch SAS URL. HTTP status: ${response.status}`);
-        }
-        const config = await response.json();
-        uploadUrl = config.STORAGE_UPLOAD_URL; // Extract the SAS URL
-        console.log("SAS URL successfully fetched:", uploadUrl);
-    } catch (error) {
-        console.error("Error fetching SAS URL from /api/config:", error);
-        messageElement.textContent = "Failed to fetch upload URL. Please try again.";
-        messageElement.className += ' error';
-        return;
-    }
+    // Hardcoded SAS URL
+    const uploadUrl = "https://ops310prj2sazaman1.blob.core.windows.net/incoming-files?sp=rcw&st=2024-12-08T08:31:56Z&se=2024-12-15T16:31:56Z&spr=https&sv=2022-11-02&sr=c&sig=tZFrRPRFuwsRaCYmwflqwjZi8BCCmwuVFqGKkyeGi5M%3D";
 
     // Display uploading message
     messageElement.textContent = `Uploading file: "${file.name}"...`;
