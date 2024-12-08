@@ -1,0 +1,109 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #e3f2fd, #f5f5dc);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Container Styling */
+.upload-container {
+    text-align: center;
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 90%;
+    animation: fadeIn 1.2s ease;
+}
+
+/* Title Styling */
+.title {
+    font-size: 2rem;
+    color: #4a4a4a;
+    margin-bottom: 20px;
+}
+
+/* Form Styling */
+.upload-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* File Input */
+.file-label {
+    display: inline-block;
+    background: #f5f5dc;
+    color: #333;
+    padding: 12px 25px;
+    border: 2px dashed #4a4a4a;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.file-label:hover {
+    background: #e3f2fd;
+    transform: scale(1.05);
+}
+
+.file-input {
+    display: none;
+}
+
+/* Button Styling */
+.upload-button {
+    background: #4caf50;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.upload-button:hover {
+    background: #45a049;
+    transform: scale(1.05);
+}
+
+/* Message Styling */
+.message {
+    margin-top: 20px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #4a4a4a;
+}
+
+/* Success and Error Styles */
+.message.success {
+    color: #4caf50;
+}
+
+.message.error {
+    color: #f44336;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
