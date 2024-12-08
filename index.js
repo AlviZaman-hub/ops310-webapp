@@ -36,7 +36,7 @@ document.getElementById('uploadForm').addEventListener('submit', async (event) =
     }
 
     // Hardcoded SAS URL
-    const uploadUrl = "https://ops310prj2sazaman1.blob.core.windows.net/incoming-files?sp=rcw&st=2024-12-08T08:31:56Z&se=2024-12-15T16:31:56Z&spr=https&sv=2022-11-02&sr=c&sig=tZFrRPRFuwsRaCYmwflqwjZi8BCCmwuVFqGKkyeGi5M%3D";
+    const uploadUrl = `https://ops310prj2sazaman1.blob.core.windows.net/incoming-files/${file.name}?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2024-12-20T18:08:29Z&st=2024-12-08T10:08:29Z&spr=https&sig=deKr472AYijemPmp3A3JoBh2XU%2F5FH5RO1pUUdZOYmM%3D`;
 
     // Display uploading message
     messageElement.textContent = `Uploading file: "${file.name}"...`;
@@ -46,7 +46,7 @@ document.getElementById('uploadForm').addEventListener('submit', async (event) =
         const response = await fetch(uploadUrl, {
             method: 'PUT',
             headers: {
-                'x-ms-blob-type': 'BlockBlob',
+                'x-ms-blob-type': 'BlockBlob', // Required for Azure Blob Storage
             },
             body: file
         });
@@ -58,7 +58,7 @@ document.getElementById('uploadForm').addEventListener('submit', async (event) =
         } else {
             messageElement.textContent = `Failed to upload file "${file.name}". Please try again.`;
             messageElement.className += ' error';
-            console.error(`Upload failed with status: ${response.status} ${response.statusText}`);
+            console.error(`Upload failed: HTTP ${response.status} - ${response.statusText}`);
         }
     } catch (error) {
         messageElement.textContent = `An error occurred while uploading "${file.name}".`;
