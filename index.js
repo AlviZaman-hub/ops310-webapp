@@ -5,7 +5,6 @@ document.getElementById('uploadForm').addEventListener('submit', async (event) =
     const messageElement = document.getElementById('message');
     const file = fileInput.files[0];
 
-    // Reset message
     messageElement.textContent = '';
     messageElement.className = 'message';
 
@@ -15,14 +14,7 @@ document.getElementById('uploadForm').addEventListener('submit', async (event) =
         return;
     }
 
-    const uploadUrl = "https://ops310prj2sazaman1.blob.core.windows.net/incoming-files?sp=rcw&st=2024-12-08T08:31:56Z&se=2024-12-15T16:31:56Z&spr=https&sv=2022-11-02&sr=c&sig=tZFrRPRFuwsRaCYmwflqwjZi8BCCmwuVFqGKkyeGi5M%3D"; 
-    // const response = await fetch("/api/config");
-    // const config = await response.json();
-    // const uploadUrl = config.STORAGE_UPLOAD_URL;
-
-    // Display uploading message
-    messageElement.textContent = "Uploading...";
-    messageElement.className = 'message';
+    const uploadUrl = "https://ops310prj2sazaman1.blob.core.windows.net/incoming-files?sp=rcw&st=2024-12-08T08:31:56Z&se=2024-12-15T16:31:56Z&spr=https&sv=2022-11-02&sr=c&sig=tZFrRPRFuwsRaCYmwflqwjZi8BCCmwuVFqGKkyeGi5M%3D";
 
     try {
         const response = await fetch(uploadUrl, {
