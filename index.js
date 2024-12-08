@@ -15,7 +15,7 @@ document.getElementById('uploadForm').addEventListener('submit', async (event) =
         return;
     }
 
-    const uploadUrl = "<Your Azure Blob Upload URL>"; // Replace with your Azure Blob Storage URL
+    const uploadUrl = "https://ops310prj2sazaman1.blob.core.windows.net/incoming-files?sp=rcw&st=2024-12-08T08:31:56Z&se=2024-12-15T16:31:56Z&spr=https&sv=2022-11-02&sr=c&sig=tZFrRPRFuwsRaCYmwflqwjZi8BCCmwuVFqGKkyeGi5M%3D"; 
 
     // Display uploading message
     messageElement.textContent = "Uploading...";
