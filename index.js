@@ -9,7 +9,10 @@ document.getElementById('uploadForm').addEventListener('submit', async (event) =
     messageElement.textContent = '';
     messageElement.className = 'message';
 
-    if (!file) {
+    // Display the selected file name
+    if (file) {
+        messageElement.textContent = `Selected file: "${file.name}" (${(file.size / 1024).toFixed(2)} KB)`;
+    } else {
         messageElement.textContent = "Please select a file!";
         messageElement.className += ' error';
         return;
@@ -37,7 +40,7 @@ document.getElementById('uploadForm').addEventListener('submit', async (event) =
     }
 
     // Display uploading message
-    messageElement.textContent = "Uploading...";
+    messageElement.textContent = `Uploading file: "${file.name}"...`;
     messageElement.className = 'message';
 
     try {
@@ -53,11 +56,11 @@ document.getElementById('uploadForm').addEventListener('submit', async (event) =
             messageElement.textContent = `File "${file.name}" uploaded successfully!`;
             messageElement.className += ' success';
         } else {
-            messageElement.textContent = "File upload failed!";
+            messageElement.textContent = `Failed to upload file "${file.name}". Please try again.`;
             messageElement.className += ' error';
         }
     } catch (error) {
-        messageElement.textContent = "An error occurred during upload!";
+        messageElement.textContent = `An error occurred while uploading "${file.name}".`;
         messageElement.className += ' error';
         console.error("Upload Error:", error);
     }
